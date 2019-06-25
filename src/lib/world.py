@@ -8,7 +8,7 @@ class PointType(Enum):
 
     def __str__(self):
         if self == PointType.ROAD:
-           return '🛣 '
+           return '  '
 
         if self == PointType.FOREST:
             return '🌳'
@@ -32,7 +32,7 @@ class World(object):
         self.height = height
         self.width = width
         self.ground = [
-            [Point(i, j, random.choice([PointType.ROAD] * 4 + [PointType.FOREST])) for i in range(width)]
+            [Point(i, j, random.choice([PointType.ROAD] * 6 + [PointType.FOREST])) for i in range(width)]
             for j in range(height)
         ]
 
@@ -73,7 +73,7 @@ class World(object):
             chars[car.location[0]][car.location[1]] = '🚛'
 
         for stock in self.stocks:
-            chars[stock.location[0]][stock.location[1]] = '🏪 '
+            chars[stock.location[0]][stock.location[1]] = '🏪'
 
         return '\n'.join([
             ''.join(chars[i][j] for j in range(self.width))
