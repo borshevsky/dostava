@@ -19,7 +19,6 @@ class Router(object):
 
         while len(edges) > 0:
             edge, w = edges.popitem()
-            print(edge, w)
             if edge == b:
                 return self.make_path(a, b, preds)
 
@@ -29,14 +28,12 @@ class Router(object):
                     weights[n] = w + 1
                     preds[n] = edge
 
-        print('no route')
+        print('no route from', a, 'to', b)
 
     @staticmethod
     def make_path(a, b, preds):
         ret = []
-        print(a, b)
         while b != a:
-            print('add ', b)
             ret.append(b)
             b = preds[b]
         ret.append(a)

@@ -19,8 +19,9 @@ class Customer(object):
 
 
 class Stock(object):
-    def __init__(self):
-        pass
+    def __init__(self, x, y):
+        self._location = (x, y)
 
-    def __str__(self):
-        return '🏪'
+    @property
+    def location(self):
+        return self._location

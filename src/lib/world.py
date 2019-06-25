@@ -11,10 +11,8 @@ class PointType(Enum):
            return '🛣 '
 
         if self == PointType.FOREST:
-            return '🌳'.strip()
+            return '🌳'
 
-        if self == PointType.STOCK:
-            return '🏪 '
 
 class Point(object):
     def __init__(self, x, y, type):
@@ -38,10 +36,19 @@ class World(object):
             for j in range(height)
         ]
 
-        self.cars = set()
+        self._cars = set()
+        self._stocks = set()
 
-    def add_stock(self, stock, x, y):
-        self.ground[x][y] = stock
+    @property
+    def cars(self):
+        return self._cars
+
+    @property
+    def stocks(self):
+        return self._stocks
+
+    def add_stock(self, stock):
+        self.stocks.add(stock)
 
     def add_car(self, car):
         self.cars.add(car)
@@ -63,7 +70,10 @@ class World(object):
         ]
 
         for car in self.cars:
-            chars[car.location[0]][car.location[1]] = '🚛 '
+            chars[car.location[0]][car.location[1]] = '🚛'
+
+        for stock in self.stocks:
+            chars[stock.location[0]][stock.location[1]] = '🏪 '
 
         return '\n'.join([
             ''.join(chars[i][j] for j in range(self.width))

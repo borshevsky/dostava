@@ -16,6 +16,10 @@ class Car(object):
             'farma_allowed': False,
         }
 
+    @property
+    def free(self):
+        return self._route is None
+
     def tick(self):
         if self._route is None:
             return
@@ -44,6 +48,9 @@ class Car(object):
     @property
     def route(self):
         return self._route
+
+    def schedule_routes(self, route):
+        self.scheduled_routes.append(route)
 
     @route.setter
     def route(self, value):

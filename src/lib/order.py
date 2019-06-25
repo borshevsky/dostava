@@ -1,13 +1,12 @@
 class Order(object):
-    def __init__(self, fr, dest, loading_time, unloading_time, cargo):
-        self.fr = fr
-        self.destination = dest
+    def __init__(self, source, dest):
+        self._source = source
+        self._destination = dest
 
-        self.loading_time = loading_time
-        self.unloading_time = unloading_time
+    @property
+    def source(self):
+        return self._source
 
-        self.cargo = cargo
-
-    @staticmethod
-    def random():
-        pass
+    @property
+    def destination(self):
+        return self._destination
