@@ -2,7 +2,7 @@ import random
 from enum import Enum, auto
 
 from src.lib.car import Car
-from src.lib.cargo import Stock
+from src.lib.stock import Stock
 
 
 class PointType(Enum):
@@ -36,7 +36,7 @@ class World(object):
         self._height = height
         self._width = width
         self._ground = [
-            [random.choice([PointType.ROAD] * 8 + [PointType.FOREST]) for _ in range(width)]
+            [random.choice([PointType.ROAD] * 8 + [PointType.ROAD]) for _ in range(width)]
             for _ in range(height)
         ]
 
@@ -57,7 +57,7 @@ class World(object):
     def add_car(self, car: Car):
         self._cars.append(car)
 
-    def tick(self):
+    def tick(self, time):
         for car in self._cars:
             car.tick()
 
@@ -79,7 +79,6 @@ class World(object):
         for stock in self.stocks:
             chars[stock.location[0]][stock.location[1]] = '🏪'
 
-        return '\n'.join([
+        return '\n'.join(
             ''.join(c for c in row)
-           for row in chars
-        ])
+            for row in chars)

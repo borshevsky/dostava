@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from src.lib.cargo import Deck
+from src.lib.router import Router
 
 
 class Car(object):
@@ -11,7 +12,7 @@ class Car(object):
     pallete: bool
     farma_allowed: bool
 
-    def __init__(self, location):
+    def __init__(self, location, router: Router):
         self._route = None
         self._location = location
         self._route_position = None
@@ -23,9 +24,6 @@ class Car(object):
         self.pallete = True
         self.farma_allowed = True
 
-    @property
-    def free(self):
-        return self._route is None
 
     @property
     def location(self):
@@ -35,15 +33,12 @@ class Car(object):
     def route(self):
         return self._route
 
-    @route.setter
-    def route(self, value):
-        assert self._route is None
-        assert value[0] == self._location
-
-        self._route = value
-
+    def add_route(self, route):
         if self._route is None:
-            self._route_position = None
+            self._route = route
+            return
+
+        self._route += route
 
     def tick(self):
         if self._route is None:
@@ -61,3 +56,15 @@ class Car(object):
 
         self._route_position += 1
         self._location = self._route[self._route_position]
+
+    def busy_duration(self):
+        if self._route is None:
+            return 0
+
+        return len(self._route) - self._route_position
+
+    def finish_point(self):
+        if self._route is None:
+            return self._location
+
+        return self._route[-1]
