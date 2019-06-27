@@ -1,9 +1,6 @@
+from typing import Tuple
+
 from heapdict import heapdict
-
-class Route(object):
-    pass
-
-
 
 class Router(object):
     def __init__(self, graph):
@@ -11,7 +8,7 @@ class Router(object):
         self.h = len(graph)
         self.w = len(graph[0])
 
-    def route(self, a, b):
+    def route(self, a: Tuple[int, int], b: Tuple[int, int]):
         preds = dict()
         weights = dict()
         edges = heapdict()
@@ -46,9 +43,3 @@ class Router(object):
             if abs(dx + dy) == 1 and 0 <= x + dx < self.h and 0 <= y + dy < self.w and self.graph[x + dx][y + dy] == 1
         )
         return ret
-
-
-
-
-
-

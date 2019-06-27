@@ -1,13 +1,15 @@
+from src.lib.order import Order
 from src.lib.router import Router
+from src.lib.world import World
 
 
 class Solver(object):
-    def __init__(self, world):
+    def __init__(self, world: World):
         self._world = world
         self._router = Router(world.graph())
         self._scheduled_orders = []
 
-    def add_order(self, order):
+    def add_order(self, order: Order):
         try:
             free_car = next(car for car in self._world.cars if car.free)
             route = self._router.route(free_car.location, order.source.location)
@@ -32,9 +34,3 @@ class Solver(object):
 
         except StopIteration:
             pass
-
-    def add_car(self, car):
-        pass
-
-    def update(self):
-        pass

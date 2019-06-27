@@ -1,26 +1,31 @@
+from dataclasses import dataclass
+from enum import Enum, auto
+
+
+class Deck(Enum):
+    SINGLE = auto(),
+    DOUBLE = auto()
+
+
+@dataclass
 class Cargo(object):
-    @property
-    def properties(self):
-        return {
-            'need_drivers': None,
-            'ADR': True,
-            'farma': False,
-            'deck': 'double',
-            'pallete': False,
-        }
+    def __init__(self):
+        self.drivers_count = 1
+        self.ADR = False
+        self.farma = False
+        self.deck = Deck.SINGLE
+        self.pallete = False
 
-
-class Schedule(object):
-    pass
-
-
-class Customer(object):
-    pass
+    drivers_count: int
+    ADR: bool
+    farma: bool
+    deck: Deck
+    pallete: bool
 
 
 class Stock(object):
-    def __init__(self, x, y):
-        self._location = (x, y)
+    def __init__(self, location):
+        self._location = location
 
     @property
     def location(self):

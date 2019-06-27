@@ -1,6 +1,10 @@
 import random
 from enum import Enum, auto
 
+from src.lib.car import Car
+from src.lib.cargo import Stock
+
+
 class PointType(Enum):
     ROAD = auto(),
     FOREST = auto(),
@@ -15,7 +19,7 @@ class PointType(Enum):
 
 
 class Point(object):
-    def __init__(self, x, y, type):
+    def __init__(self, x: float, y: float, type: PointType):
         self.x = x
         self.y = y
         self.type = type
@@ -28,16 +32,16 @@ class Point(object):
 
 
 class World(object):
-    def __init__(self, height, width):
-        self.height = height
-        self.width = width
-        self.ground = [
-            [Point(i, j, random.choice([PointType.ROAD] * 6 + [PointType.FOREST])) for i in range(width)]
-            for j in range(height)
+    def __init__(self, height: int, width: int):
+        self._height = height
+        self._width = width
+        self._ground = [
+            [random.choice([PointType.ROAD] * 8 + [PointType.FOREST]) for _ in range(width)]
+            for _ in range(height)
         ]
 
-        self._cars = set()
-        self._stocks = set()
+        self._cars = list()
+        self._stocks = list()
 
     @property
     def cars(self):
@@ -47,26 +51,26 @@ class World(object):
     def stocks(self):
         return self._stocks
 
-    def add_stock(self, stock):
-        self.stocks.add(stock)
+    def add_stock(self, stock: Stock):
+        self._stocks.append(stock)
 
-    def add_car(self, car):
-        self.cars.add(car)
+    def add_car(self, car: Car):
+        self._cars.append(car)
 
     def tick(self):
-        for car in self.cars:
+        for car in self._cars:
             car.tick()
 
     def graph(self):
         return [
-            [0 if p.type == PointType.FOREST else 1 for p in self.ground[i]]
-            for i in range(self.height)
+            [0 if p == PointType.FOREST else 1 for p in row]
+            for row in self._ground
         ]
 
     def __str__(self):
         chars = [
-            [str(p) for p in self.ground[i]]
-            for i in range(self.height)
+            [str(p) for p in row]
+            for row in self._ground
         ]
 
         for car in self.cars:
@@ -76,6 +80,6 @@ class World(object):
             chars[stock.location[0]][stock.location[1]] = '🏪'
 
         return '\n'.join([
-            ''.join(chars[i][j] for j in range(self.width))
-           for i in range(self.height)
+            ''.join(c for c in row)
+           for row in chars
         ])
